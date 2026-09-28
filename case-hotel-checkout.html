@@ -14,9 +14,11 @@
   --bg2:#080c14;
   --glass:rgba(255,255,255,0.04);
   --glass-border:rgba(255,255,255,0.08);
+  --glass-hover:rgba(255,255,255,0.07);
   --accent:#4a7fe8;
   --accent2:#2d5fc4;
   --accent3:#8fb4ff;
+  --glow:rgba(74,127,232,0.2);
   --text:#eef2ff;
   --muted:#6b7fa8;
   --muted2:#2a344f;
@@ -33,25 +35,24 @@ body{
 body::before{
   content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background:
-    radial-gradient(ellipse 70% 50% at 5% 0%, rgba(42,96,196,0.07) 0%,transparent 60%),
-    radial-gradient(ellipse 50% 40% at 95% 95%, rgba(196,97,42,0.05) 0%,transparent 60%);
+    radial-gradient(ellipse 70% 55% at 15% 10%, rgba(42,96,196,0.10) 0%,transparent 65%),
+    radial-gradient(ellipse 50% 40% at 85% 85%, rgba(74,127,232,0.07) 0%,transparent 65%);
 }
 
-/* NAV */
+/* NAV — idêntica ao index */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:200;
-  padding:18px 48px;
+  padding:22px 64px;
   display:flex;align-items:center;justify-content:space-between;
-  background:rgba(5,7,9,0.72);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border-bottom:1px solid rgba(255,255,255,0.06);
+  background:rgba(5,7,9,0.5);
+  backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
+  border-bottom:1px solid rgba(74,127,232,0.10);
 }
 .nav-logo{
-  font-family:'Playfair Display',serif;font-size:15px;letter-spacing:.5px;
-  color:var(--text);text-decoration:none;opacity:.8;
-  transition:opacity .2s;
+  font-family:'Outfit',sans-serif;font-weight:300;font-size:15px;
+  letter-spacing:6px;text-transform:uppercase;color:var(--text);text-decoration:none;
 }
-.nav-logo:hover{opacity:1}
+.nav-logo b{font-weight:600;color:var(--accent3)}
 .nav-back{
   font-size:11px;letter-spacing:2px;text-transform:uppercase;
   color:var(--muted);text-decoration:none;
@@ -63,129 +64,115 @@ nav{
 
 /* HERO */
 .hero{
-  padding:128px 48px 72px;
-  max-width:880px;margin:0 auto;
+  padding:148px 64px 100px;
+  max-width:1100px;margin:0 auto;
   position:relative;z-index:1;
   border-bottom:1px solid var(--glass-border);
 }
 .hero-eyebrow{
-  display:flex;align-items:center;gap:16px;margin-bottom:32px;
+  display:inline-flex;align-items:center;gap:10px;
+  margin-bottom:36px;
+  font-size:10px;letter-spacing:3.5px;text-transform:uppercase;
+  color:var(--muted);font-weight:400;
 }
-.hero-tag{
-  font-size:10px;letter-spacing:3px;text-transform:uppercase;
-  color:var(--terra);border:1px solid rgba(196,97,42,.3);
-  padding:4px 12px;border-radius:2px;
+.hero-eyebrow::before,.hero-eyebrow::after{
+  content:'';display:block;width:32px;height:1px;background:var(--muted2);
 }
-.hero-dot{width:4px;height:4px;border-radius:50%;background:var(--muted2)}
-.hero-cat{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.hero-tag{color:var(--accent3)}
 .hero h1{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(38px,6vw,66px);
-  font-weight:700;line-height:1.08;letter-spacing:-.5px;
-  margin-bottom:22px;
+  font-family:'Playfair Display',serif;font-style:italic;font-weight:400;
+  font-size:clamp(48px,7vw,96px);
+  line-height:1.05;letter-spacing:-1px;
+  margin-bottom:24px;
 }
-.hero h1 em{color:var(--terra);font-style:italic}
 .hero-desc{
-  font-size:16px;color:var(--muted);font-weight:300;
-  max-width:540px;line-height:1.85;margin-bottom:52px;
+  font-size:15px;color:var(--muted);font-weight:300;
+  max-width:520px;line-height:1.85;margin-bottom:52px;
 }
 .hero-meta{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  border:1px solid var(--glass-border);
+  display:flex;gap:0;
+  border-top:1px solid var(--glass-border);
+  border-left:1px solid var(--glass-border);
+  max-width:640px;
 }
 .meta-item{
-  padding:22px 24px;
+  flex:1;
+  padding:22px 28px;
+  border-bottom:1px solid var(--glass-border);
   border-right:1px solid var(--glass-border);
 }
-.meta-item:last-child{border-right:none}
 .meta-label{
   font-size:9px;letter-spacing:2.5px;text-transform:uppercase;
   color:var(--muted);margin-bottom:6px;
 }
-.meta-value{
-  font-size:15px;font-weight:500;color:var(--text);
-}
+.meta-value{font-size:14px;font-weight:400;color:var(--text)}
 .meta-value.accent{color:var(--terra)}
 
-/* WRAPPER */
-.wrap{max-width:880px;margin:0 auto;position:relative;z-index:1}
-
-/* SECTION */
-.section{padding:72px 48px;border-bottom:1px solid var(--glass-border)}
-.sec-num{
-  font-size:9px;letter-spacing:3px;text-transform:uppercase;
-  color:var(--muted2);margin-bottom:8px;display:block;
+/* SECTION STYLES — idênticos ao index */
+section{padding:120px 64px;position:relative;z-index:1;border-bottom:1px solid var(--glass-border)}
+.label{
+  display:block;font-size:10px;letter-spacing:3.5px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:14px;font-weight:400;
 }
-.sec-num em{color:var(--terra);font-style:normal}
-.sec-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(22px,3.5vw,34px);
-  font-weight:700;line-height:1.15;margin-bottom:20px;
+.h2{
+  font-family:'Playfair Display',serif;font-style:italic;font-weight:400;
+  font-size:clamp(32px,4vw,52px);line-height:1.08;margin-bottom:18px;
 }
-.sec-body{
-  font-size:15px;color:var(--muted);line-height:1.9;font-weight:300;
-}
-.sec-body + .sec-body{margin-top:16px}
+.sub{font-size:15px;color:var(--muted);line-height:1.85;max-width:580px;font-weight:300}
+.rule{width:32px;height:1px;background:var(--accent);margin:28px 0;opacity:.7}
+.body-text{font-size:15px;color:var(--muted);line-height:1.9;font-weight:300}
 
 /* TWO-COL */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
-.two-col.flip{}
-@media(max-width:700px){.two-col{grid-template-columns:1fr}}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+@media(max-width:760px){.two-col{grid-template-columns:1fr;gap:40px}}
 
-/* INSIGHT CARDS */
-.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--glass-border);margin-top:40px;border:1px solid var(--glass-border);}
-.insight{
-  padding:28px 28px;background:var(--bg);
+/* INSIGHT GRID */
+.insight-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--glass-border);
+  border:1px solid var(--glass-border);
+  margin-top:8px;
 }
-.insight-icon{
-  font-size:20px;margin-bottom:14px;display:block;
-}
-.insight-title{
-  font-size:13px;font-weight:500;letter-spacing:.3px;margin-bottom:8px;
-}
-.insight-desc{
-  font-size:13px;color:var(--muted);line-height:1.75;font-weight:300;
-}
+.insight{padding:28px;background:var(--bg)}
+.insight-icon{font-size:18px;margin-bottom:12px;display:block}
+.insight-title{font-size:13px;font-weight:500;margin-bottom:6px;color:var(--text)}
+.insight-desc{font-size:13px;color:var(--muted);line-height:1.75;font-weight:300}
 @media(max-width:600px){.insight-grid{grid-template-columns:1fr}}
 
 /* STEPS */
-.steps{margin-top:40px;display:flex;flex-direction:column;gap:0;border:1px solid var(--glass-border);}
+.steps{margin-top:40px;border:1px solid var(--glass-border)}
 .step{
-  display:flex;align-items:flex-start;gap:24px;
-  padding:24px 28px;
+  display:flex;align-items:flex-start;gap:28px;
+  padding:26px 28px;
   border-bottom:1px solid var(--glass-border);
   transition:background .2s;
 }
 .step:last-child{border-bottom:none}
 .step:hover{background:var(--glass)}
 .step-num{
-  font-size:11px;font-weight:600;letter-spacing:1px;
-  color:var(--terra);flex-shrink:0;padding-top:2px;min-width:32px;
+  font-size:10px;font-weight:600;letter-spacing:2px;
+  color:var(--accent);flex-shrink:0;padding-top:3px;min-width:36px;
+  font-family:'Outfit',sans-serif;
 }
-.step-content{}
-.step-title{font-size:14px;font-weight:500;margin-bottom:4px}
-.step-desc{font-size:13px;color:var(--muted);line-height:1.75;font-weight:300}
+.step-title{font-size:14px;font-weight:500;margin-bottom:5px;color:var(--text)}
+.step-desc{font-size:13px;color:var(--muted);line-height:1.8;font-weight:300}
 
-/* PHONE SHOWCASE — THE KEY SECTION */
-.screens-section{padding:72px 48px;border-bottom:1px solid var(--glass-border)}
-.screens-intro{margin-bottom:48px}
+/* PHONE SCREENS */
 .screens-grid{
   display:grid;
   grid-template-columns:repeat(5,1fr);
-  gap:16px;
+  gap:20px;
   align-items:start;
+  margin-top:56px;
 }
-.screen-item{
-  display:flex;flex-direction:column;gap:12px;
-}
+.screen-item{display:flex;flex-direction:column;gap:10px}
 .screen-phone{
   background:var(--card);
   border:1px solid var(--glass-border);
-  border-radius:20px;
+  border-radius:18px;
   overflow:hidden;
-  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  box-shadow:0 12px 40px rgba(0,0,0,.6);
   aspect-ratio:390/844;
-  position:relative;
 }
 .screen-phone img{
   width:100%;height:100%;
@@ -193,76 +180,68 @@ nav{
   display:block;
 }
 .screen-label{
-  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;
   color:var(--muted);text-align:center;
 }
 .screen-sub{font-size:11px;color:var(--muted2);text-align:center;margin-top:2px}
-@media(max-width:900px){.screens-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:960px){.screens-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:600px){.screens-grid{grid-template-columns:repeat(2,1fr);gap:12px}}
 
-/* DECISION PILLS */
-.decision-list{margin-top:32px;display:flex;flex-direction:column;gap:16px;}
+/* DECISIONS */
+.decision-list{margin-top:40px;display:flex;flex-direction:column;gap:1px;background:var(--glass-border);border:1px solid var(--glass-border)}
 .decision{
-  padding:20px 24px;
-  border:1px solid var(--glass-border);
-  border-left:3px solid var(--terra);
-  background:var(--terra-dim);
+  padding:28px 28px;background:var(--bg);
+  border-left:2px solid var(--accent);
+  transition:background .2s;
 }
-.decision-q{font-size:13px;font-weight:500;margin-bottom:6px;}
-.decision-a{font-size:13px;color:var(--muted);line-height:1.75;font-weight:300}
+.decision:hover{background:var(--glass)}
+.decision-q{font-size:14px;font-weight:500;margin-bottom:8px;color:var(--text)}
+.decision-a{font-size:13px;color:var(--muted);line-height:1.85;font-weight:300}
 
-/* APRENDIZADOS */
-.learn-grid{margin-top:40px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}
-.learn-card{
-  padding:24px;
-  border:1px solid var(--glass-border);
-  background:var(--glass);
-}
+/* LEARNINGS */
+.learn-grid{margin-top:40px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--glass-border);border:1px solid var(--glass-border)}
+.learn-card{padding:32px 28px;background:var(--bg)}
 .learn-num{
-  font-size:28px;font-weight:600;color:var(--terra);
-  font-family:'Playfair Display',serif;
-  line-height:1;margin-bottom:12px;
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:42px;color:var(--accent3);
+  line-height:1;margin-bottom:16px;
 }
-.learn-title{font-size:13px;font-weight:500;margin-bottom:8px;}
-.learn-desc{font-size:12px;color:var(--muted);line-height:1.75;font-weight:300}
+.learn-title{font-size:13px;font-weight:500;margin-bottom:8px;color:var(--text)}
+.learn-desc{font-size:13px;color:var(--muted);line-height:1.8;font-weight:300}
 @media(max-width:700px){.learn-grid{grid-template-columns:1fr}}
 
 /* CTA */
-.cta-section{
-  padding:80px 48px;
-  text-align:center;
+.cta-wrap{
+  padding:120px 64px;text-align:center;
   position:relative;z-index:1;
 }
-.cta-section h2{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(24px,4vw,38px);
-  font-weight:700;margin-bottom:12px;
+.cta-wrap h2{
+  font-family:'Playfair Display',serif;font-style:italic;font-weight:400;
+  font-size:clamp(32px,4vw,52px);margin-bottom:14px;line-height:1.1;
 }
-.cta-section p{
-  font-size:15px;color:var(--muted);margin-bottom:36px;font-weight:300;
+.cta-wrap p{font-size:15px;color:var(--muted);margin-bottom:40px;font-weight:300}
+.btn{
+  display:inline-block;padding:13px 34px;
+  font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;
+  letter-spacing:2px;text-transform:uppercase;text-decoration:none;
+  border:none;cursor:pointer;border-radius:3px;transition:all .25s;
 }
 .btn-primary{
-  display:inline-flex;align-items:center;gap:10px;
   background:var(--accent);color:#fff;
-  font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;
-  padding:14px 32px;text-decoration:none;
-  border-radius:2px;transition:background .2s,transform .2s;
+  box-shadow:0 6px 28px rgba(74,127,232,.3);
 }
-.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-2px)}
 .btn-ghost{
-  display:inline-flex;align-items:center;gap:10px;
-  color:var(--muted);font-size:12px;font-weight:400;letter-spacing:1px;text-transform:uppercase;
-  padding:14px 24px;text-decoration:none;
-  border:1px solid var(--glass-border);border-radius:2px;
-  transition:color .2s,border-color .2s;margin-left:12px;
+  background:transparent;color:var(--text);
+  border:1px solid rgba(255,255,255,.12);
+  margin-left:12px;
 }
-.btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+.btn-ghost:hover{background:var(--glass-hover);transform:translateY(-2px)}
 
 /* FOOTER */
 footer{
   border-top:1px solid var(--glass-border);
-  padding:28px 48px;
-  max-width:880px;margin:0 auto;
+  padding:28px 64px;
   display:flex;align-items:center;justify-content:space-between;
   position:relative;z-index:1;
 }
@@ -270,18 +249,18 @@ footer{
 .foot-r{font-size:11px;color:var(--muted2)}
 
 @media(max-width:640px){
-  nav{padding:16px 20px}
-  .hero,.section,.screens-section,.cta-section{padding-left:20px;padding-right:20px}
-  .hero-meta{grid-template-columns:1fr 1fr}
+  nav{padding:18px 20px}
+  .hero,section,.cta-wrap{padding-left:20px;padding-right:20px}
+  .hero-meta{flex-wrap:wrap}
+  .meta-item{min-width:50%}
   footer{padding:20px;flex-direction:column;gap:8px;text-align:center}
-  .two-col{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="nav-logo">KR</a>
+  <a href="index.html" class="nav-logo"><b>K</b>AIQUE</a>
   <a href="index.html" class="nav-back">
     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
     Portfólio
@@ -291,12 +270,10 @@ footer{
 <!-- HERO -->
 <div class="hero">
   <div class="hero-eyebrow">
-    <span class="hero-tag">UX · Case Study</span>
-    <span class="hero-dot"></span>
-    <span class="hero-cat">Mobile · Checkout Flow</span>
+    <span class="hero-tag">UX Design · Case Study</span>
   </div>
-  <h1>Hotel Checkout<br><em>Flow</em></h1>
-  <p class="hero-desc">Redesenho do fluxo de checkout mobile de uma plataforma de reservas de hotéis — do resumo do quarto até a confirmação em 6 etapas.</p>
+  <h1>Hotel Checkout<br>Flow</h1>
+  <p class="hero-desc">Redesenho do fluxo de checkout mobile de uma plataforma de reservas de hotéis — do resumo do quarto até a confirmação, em 6 etapas.</p>
   <div class="hero-meta">
     <div class="meta-item">
       <div class="meta-label">Papel</div>
@@ -317,18 +294,17 @@ footer{
   </div>
 </div>
 
-<div class="wrap">
-
 <!-- CONTEXTO -->
-<section class="section">
-  <span class="sec-num">01 — <em>Contexto</em></span>
-  <h2 class="sec-title">O problema</h2>
+<section id="contexto">
+  <span class="label">01 — Contexto</span>
+  <h2 class="h2">O problema</h2>
+  <div class="rule"></div>
   <div class="two-col">
     <div>
-      <p class="sec-body">Checkouts de reservas de hotel costumam ter alta taxa de abandono. O usuário chega motivado, mas se perde em formulários longos, surpresas de preço no final do fluxo e falta de clareza sobre o que está incluído na tarifa.</p>
-      <p class="sec-body" style="margin-top:16px">O desafio era redesenhar o fluxo completo — do resumo até o pagamento — priorizando confiança, clareza de custo e fluidez em mobile.</p>
+      <p class="body-text">Checkouts de reservas de hotel têm alta taxa de abandono. O usuário chega motivado, mas se perde em formulários longos, surpresas de preço no final e falta de clareza sobre o que está incluído.</p>
+      <p class="body-text" style="margin-top:16px">O desafio era redesenhar o fluxo completo — do resumo até o pagamento — priorizando confiança, transparência de custo e fluidez em mobile.</p>
     </div>
-    <div class="insight-grid" style="margin-top:0">
+    <div class="insight-grid">
       <div class="insight">
         <span class="insight-icon">📉</span>
         <div class="insight-title">68% de abandono</div>
@@ -354,84 +330,85 @@ footer{
 </section>
 
 <!-- PESQUISA -->
-<section class="section">
-  <span class="sec-num">02 — <em>Pesquisa</em></span>
-  <h2 class="sec-title">O que os usuários diziam</h2>
-  <p class="sec-body">Entrevistas com 6 usuários frequentes de plataformas de reserva revelaram padrões claros de frustração. Três temas dominaram as conversas.</p>
-  <div class="insight-grid" style="grid-template-columns:1fr 1fr 1fr;margin-top:32px">
+<section id="pesquisa">
+  <span class="label">02 — Pesquisa</span>
+  <h2 class="h2">O que os usuários diziam</h2>
+  <div class="rule"></div>
+  <p class="sub">Entrevistas com 6 usuários frequentes de plataformas de reserva revelaram três padrões claros de frustração.</p>
+  <div class="insight-grid" style="grid-template-columns:1fr 1fr 1fr;margin-top:40px">
     <div class="insight">
       <div class="insight-title">"O preço muda no final"</div>
-      <div class="insight-desc">Taxas de resort e municipais aparecem só na revisão. Usuário sente que foi enganado.</div>
+      <div class="insight-desc">Taxas de resort e municipais aparecem só na revisão. Usuário sente que foi enganado antes de confirmar.</div>
     </div>
     <div class="insight">
       <div class="insight-title">"Não sei em que etapa estou"</div>
-      <div class="insight-desc">Ausência de indicador de progresso claro gera ansiedade sobre o tempo necessário.</div>
+      <div class="insight-desc">Ausência de indicador de progresso claro gera ansiedade sobre o tempo necessário para concluir.</div>
     </div>
     <div class="insight">
       <div class="insight-title">"Tenho medo de errar"</div>
-      <div class="insight-desc">Tarifas não reembolsáveis sem destaque adequado geram insegurança na confirmação.</div>
+      <div class="insight-desc">Tarifas não reembolsáveis sem destaque adequado geram insegurança na hora de confirmar a reserva.</div>
     </div>
   </div>
 </section>
 
 <!-- PROCESSO -->
-<section class="section">
-  <span class="sec-num">03 — <em>Processo</em></span>
-  <h2 class="sec-title">Estrutura do fluxo</h2>
-  <p class="sec-body">O redesenho partiu de um fluxo de 6 etapas com responsabilidade única por tela — cada step tem um objetivo claro, sem tentar fazer tudo de uma vez.</p>
+<section id="processo">
+  <span class="label">03 — Processo</span>
+  <h2 class="h2">Estrutura do fluxo</h2>
+  <div class="rule"></div>
+  <p class="sub">O redesenho partiu de um fluxo de 6 etapas com responsabilidade única por tela — cada step tem um objetivo claro, sem tentar fazer tudo de uma vez.</p>
   <div class="steps">
     <div class="step">
       <span class="step-num">01</span>
-      <div class="step-content">
+      <div>
         <div class="step-title">Resumo do quarto</div>
-        <div class="step-desc">Confirma o que foi selecionado na busca. Destaque para o que está incluído na tarifa — Wi-Fi, estacionamento, piscina, serviço de quarto. Tarifa não reembolsável sinalizada antes da confirmação.</div>
+        <div class="step-desc">Confirma o que foi selecionado na busca. Destaque para o que está incluído na tarifa. Condição de não reembolso sinalizada com aceite explícito antes da confirmação.</div>
       </div>
     </div>
     <div class="step">
       <span class="step-num">02</span>
-      <div class="step-content">
+      <div>
         <div class="step-title">Configurar estadia</div>
         <div class="step-desc">Ajuste de datas, número de adultos, crianças e quartos. Total atualiza em tempo real. Usuário tem controle antes de comprometer os dados pessoais.</div>
       </div>
     </div>
     <div class="step">
       <span class="step-num">03</span>
-      <div class="step-content">
+      <div>
         <div class="step-title">Dados do hóspede</div>
-        <div class="step-desc">Formulário enxuto: nome, e-mail, celular e pedidos especiais. Instrução contextual reforça usar o nome exatamente como no documento para o check-in.</div>
+        <div class="step-desc">Formulário enxuto: nome, e-mail, celular e pedidos especiais. Instrução contextual reforça usar o nome exatamente como no documento de identificação.</div>
       </div>
     </div>
     <div class="step">
       <span class="step-num">04</span>
-      <div class="step-content">
+      <div>
         <div class="step-title">Extras</div>
-        <div class="step-desc">Café da manhã, transfer, early check-in, late check-out. Preço de cada item claro antes de selecionar. Nenhum pré-selecionado por padrão.</div>
+        <div class="step-desc">Café da manhã, transfer, early check-in, late check-out. Preço de cada item visível antes de selecionar. Nenhum pré-selecionado por padrão.</div>
       </div>
     </div>
     <div class="step">
       <span class="step-num">05</span>
-      <div class="step-content">
+      <div>
         <div class="step-title">Revisão</div>
-        <div class="step-desc">Tela de revisão completa com separação entre "você paga agora" e "você paga no hotel". Alerta de mudança de preço tratado com contexto e opção de aceitar ou ver alternativas.</div>
+        <div class="step-desc">Separação clara entre "você paga agora" e "você paga no hotel". Alerta de mudança de preço tratado com contexto e opção de aceitar ou ver alternativas.</div>
       </div>
     </div>
     <div class="step">
       <span class="step-num">06</span>
-      <div class="step-content">
+      <div>
         <div class="step-title">Pagamento e confirmação</div>
-        <div class="step-desc">Formulário de cartão com input mascarado e timer de bloqueio de quarto. Tela de confirmação com código de reserva, voucher e instruções de check-in.</div>
+        <div class="step-desc">Formulário de cartão com input mascarado e timer de bloqueio do quarto. Tela de confirmação com código de reserva, voucher e instruções de check-in.</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- TELAS -->
-<section class="screens-section">
-  <div class="screens-intro">
-    <span class="sec-num">04 — <em>Telas</em></span>
-    <h2 class="sec-title">O fluxo completo</h2>
-    <p class="sec-body">10 telas cobrindo os estados principais — incluindo confirmação de tarifa, mudança de preço e voucher pós-reserva.</p>
-  </div>
+<section id="telas">
+  <span class="label">04 — Telas</span>
+  <h2 class="h2">O fluxo completo</h2>
+  <div class="rule"></div>
+  <p class="sub">10 telas cobrindo os estados principais — incluindo aceite de tarifa, mudança de preço em tempo real e voucher pós-reserva.</p>
   <div class="screens-grid">
     <div class="screen-item">
       <div class="screen-phone">
@@ -507,34 +484,36 @@ footer{
 </section>
 
 <!-- DECISÕES -->
-<section class="section">
-  <span class="sec-num">05 — <em>Decisões</em></span>
-  <h2 class="sec-title">Por que essas escolhas</h2>
-  <p class="sec-body">Cada decisão de design teve um raciocínio baseado no comportamento observado nas entrevistas.</p>
+<section id="decisoes">
+  <span class="label">05 — Decisões de design</span>
+  <h2 class="h2">Por que essas escolhas</h2>
+  <div class="rule"></div>
+  <p class="sub">Cada decisão teve um raciocínio baseado no comportamento observado nas entrevistas e nos padrões de abandono.</p>
   <div class="decision-list">
     <div class="decision">
       <div class="decision-q">Por que mostrar os itens incluídos na tarifa logo na etapa 1?</div>
-      <div class="decision-a">Usuários cancelavam a reserva depois de descobrir que extras como café da manhã não estavam incluídos. Antecipar essa informação reduz a sensação de "bait and switch" e aumenta a percepção de valor antes do compromisso.</div>
+      <div class="decision-a">Usuários cancelavam a reserva depois de descobrir que extras como café da manhã não estavam incluídos. Antecipar essa informação reduz a sensação de "bait and switch" e aumenta a percepção de valor antes do compromisso financeiro.</div>
     </div>
     <div class="decision">
-      <div class="decision-q">Por que tratar a mudança de preço na tela de revisão e não antes?</div>
-      <div class="decision-a">A mudança de preço acontece por disponibilidade em tempo real. Alertar cedo causaria ansiedade desnecessária. Na revisão, o usuário já está comprometido mentalmente e tem contexto suficiente para decidir aceitar ou buscar alternativas.</div>
+      <div class="decision-q">Por que tratar a mudança de preço na revisão e não antes?</div>
+      <div class="decision-a">A mudança de preço acontece por disponibilidade em tempo real. Alertar cedo causaria ansiedade desnecessária. Na revisão, o usuário já tem contexto suficiente para decidir aceitar ou buscar alternativas.</div>
     </div>
     <div class="decision">
       <div class="decision-q">Por que separar "paga agora" de "paga no hotel"?</div>
-      <div class="decision-a">Taxas de resort e municipais são cobradas na propriedade. Apresentar tudo como um valor único criava desconfiança quando o extrato do cartão não batia. A separação explícita elimina essa fricção e prepara o usuário para a experiência real.</div>
+      <div class="decision-a">Taxas de resort e municipais são cobradas na propriedade. Apresentar tudo como um único valor criava desconfiança quando o extrato não batia. A separação elimina essa fricção e prepara o usuário para a experiência real.</div>
     </div>
     <div class="decision">
       <div class="decision-q">Por que o timer de bloqueio de quarto na tela de pagamento?</div>
-      <div class="decision-a">Quartos têm disponibilidade real e podem ser liberados durante o preenchimento. O timer comunica urgência sem ser agressivo — é informativo, não manipulativo. O usuário entende que o bloqueio é uma proteção para ele.</div>
+      <div class="decision-a">Quartos têm disponibilidade real. O timer comunica urgência sem ser agressivo — é informativo, não manipulativo. O usuário entende que o bloqueio é uma proteção para ele durante o preenchimento.</div>
     </div>
   </div>
 </section>
 
 <!-- APRENDIZADOS -->
-<section class="section">
-  <span class="sec-num">06 — <em>Aprendizados</em></span>
-  <h2 class="sec-title">O que esse projeto ensinou</h2>
+<section id="aprendizados">
+  <span class="label">06 — Aprendizados</span>
+  <h2 class="h2">O que esse projeto ensinou</h2>
+  <div class="rule"></div>
   <div class="learn-grid">
     <div class="learn-card">
       <div class="learn-num">01</div>
@@ -554,17 +533,14 @@ footer{
   </div>
 </section>
 
-</div><!-- /wrap -->
-
 <!-- CTA -->
-<div class="cta-section">
+<div class="cta-wrap">
   <h2>Quer conversar sobre o projeto?</h2>
   <p>Aberto para oportunidades e colaborações em UX e produto.</p>
-  <a href="mailto:kaiquerocc@gmail.com" class="btn-primary">
+  <a href="mailto:kaiquerocc@gmail.com" class="btn btn-primary">
     Entrar em contato
-    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
   </a>
-  <a href="index.html" class="btn-ghost">Ver portfólio</a>
+  <a href="index.html" class="btn btn-ghost">Ver portfólio</a>
 </div>
 
 <footer>
