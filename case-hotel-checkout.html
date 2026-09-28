@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hotel Checkout Flow — Case Study · Kaique Rocha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050709;
+  --bg2:#080c14;
+  --glass:rgba(255,255,255,0.04);
+  --glass-border:rgba(255,255,255,0.08);
+  --glass-hover:rgba(255,255,255,0.07);
+  --accent:#4a7fe8;
+  --accent2:#2d5fc4;
+  --accent3:#8fb4ff;
+  --glow:rgba(74,127,232,0.2);
+  --text:#eef2ff;
+  --muted:#6b7fa8;
+  --muted2:#2a344f;
+  --card:#0a0f1e;
+  --body:'Outfit',sans-serif;
+  --serif:'Playfair Display',serif;
+  /* case study accent — terracota do projeto */
+  --terra:#C4612A;
+  --terra-dim:rgba(196,97,42,0.15);
+  --green:#2D5F45;
+  --green-dim:rgba(45,95,69,0.15);
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--body);font-size:16px;line-height:1.6;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 45% at 10% 5%, rgba(42,96,196,0.08) 0%,transparent 65%),
+    radial-gradient(ellipse 40% 35% at 90% 90%, rgba(196,97,42,0.06) 0%,transparent 65%);
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  padding:20px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(5,7,9,0.6);
+  backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
+  border-bottom:1px solid rgba(74,127,232,0.10);
+}
+.nav-logo{
+  font-family:var(--serif);font-size:16px;letter-spacing:1px;
+  color:var(--text);text-decoration:none;opacity:.85;
+  transition:opacity .2s;
+}
+.nav-logo:hover{opacity:1}
+.nav-back{
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;
+  display:flex;align-items:center;gap:8px;transition:color .2s;
+}
+.nav-back:hover{color:var(--accent3)}
+.nav-back svg{transition:transform .2s}
+.nav-back:hover svg{transform:translateX(-4px)}
+
+/* ── HERO ── */
+.hero{
+  padding:140px 48px 80px;
+  max-width:900px;margin:0 auto;
+  position:relative;z-index:1;
+}
+.hero-tag{
+  display:inline-block;
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--terra);border:1px solid rgba(196,97,42,.35);
+  padding:5px 14px;border-radius:2px;margin-bottom:28px;
+}
+.hero h1{
+  font-family:var(--serif);font-size:clamp(36px,6vw,64px);
+  font-weight:700;line-height:1.1;
+  margin-bottom:20px;
+}
+.hero h1 em{color:var(--terra);font-style:italic}
+.hero-sub{
+  font-size:17px;color:var(--muted);font-weight:300;
+  max-width:600px;line-height:1.8;margin-bottom:48px;
+}
+.hero-stats{
+  display:flex;flex-wrap:wrap;gap:0;
+  border-top:1px solid var(--glass-border);
+  border-left:1px solid var(--glass-border);
+}
+.stat{
+  flex:1;min-width:140px;
+  padding:24px 28px;
+  border-bottom:1px solid var(--glass-border);
+  border-right:1px solid var(--glass-border);
+}
+.stat-n{
+  font-size:32px;font-weight:600;
+  color:var(--text);line-height:1;margin-bottom:6px;
+}
+.stat-n span{color:var(--terra)}
+.stat-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:300}
+
+/* ── SECTIONS ── */
+.section{
+  max-width:900px;margin:0 auto;
+  padding:72px 48px;
+  position:relative;z-index:1;
+}
+.section+.section{border-top:1px solid var(--glass-border)}
+.sec-label{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:12px;display:block;
+}
+.sec-label span{color:var(--terra)}
+.sec-title{
+  font-family:var(--serif);font-size:clamp(24px,4vw,38px);
+  font-weight:700;margin-bottom:24px;line-height:1.2;
+}
+.sec-body{
+  font-size:15px;color:var(--muted);line-height:1.9;
+  font-weight:300;
+}
+.sec-body p+p{margin-top:16px}
+
+/* ── PROBLEM CARDS ── */
+.pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;margin-top:40px;border:1px solid var(--glass-border)}
+.pain-card{
+  background:var(--glass);padding:28px 24px;
+  border-right:1px solid var(--glass-border);
+}
+.pain-card:last-child{border-right:none}
+.pain-num{
+  font-size:10px;letter-spacing:3px;color:var(--terra);
+  text-transform:uppercase;margin-bottom:12px;display:block;
+}
+.pain-card h3{font-size:15px;font-weight:500;margin-bottom:10px}
+.pain-card p{font-size:13.5px;color:var(--muted);line-height:1.7;font-weight:300}
+
+/* ── PROCESS STEPPER ── */
+.stepper{margin-top:48px;position:relative}
+.stepper::before{
+  content:'';position:absolute;left:20px;top:0;bottom:0;
+  width:1px;background:linear-gradient(to bottom,var(--terra) 0%,rgba(196,97,42,0) 100%);
+}
+.step{
+  display:flex;gap:28px;margin-bottom:40px;
+  padding-left:0;position:relative;
+}
+.step-dot{
+  flex-shrink:0;width:40px;height:40px;
+  border-radius:50%;
+  background:var(--bg2);border:1px solid var(--terra);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:600;color:var(--terra);
+  position:relative;z-index:1;
+}
+.step-content{padding-top:8px}
+.step-title{font-size:14px;font-weight:500;margin-bottom:6px;letter-spacing:.5px}
+.step-desc{font-size:13.5px;color:var(--muted);line-height:1.75;font-weight:300}
+
+/* ── DECISIONS GRID ── */
+.decisions{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:40px}
+.decision-card{
+  background:var(--glass);border:1px solid var(--glass-border);
+  padding:24px;border-radius:3px;
+  transition:border-color .2s,background .2s;
+}
+.decision-card:hover{border-color:rgba(74,127,232,.25);background:var(--glass-hover)}
+.decision-badge{
+  display:inline-block;font-size:9px;letter-spacing:2.5px;
+  text-transform:uppercase;padding:3px 10px;border-radius:2px;
+  margin-bottom:14px;
+}
+.decision-badge.ux{background:var(--terra-dim);color:var(--terra)}
+.decision-badge.ui{background:rgba(143,180,255,.1);color:var(--accent3)}
+.decision-card h3{font-size:14px;font-weight:500;margin-bottom:8px}
+.decision-card p{font-size:13px;color:var(--muted);line-height:1.7;font-weight:300}
+
+/* ── SCREENS ── */
+.screens{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;margin-top:40px;
+}
+@media(max-width:640px){.screens{grid-template-columns:repeat(2,1fr)}}
+.screen-card{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:3px;overflow:hidden;
+}
+.screen-preview{
+  height:200px;
+  background:linear-gradient(135deg, #0d1220 0%, #111826 100%);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.screen-preview img{
+  width:100%;height:100%;object-fit:contain;padding:8px;
+}
+.screen-placeholder{
+  text-align:center;
+  color:var(--muted2);
+}
+.screen-placeholder .sp-step{
+  font-size:28px;font-weight:700;font-family:var(--serif);
+  display:block;margin-bottom:4px;color:rgba(196,97,42,.3);
+}
+.screen-placeholder .sp-label{
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted2);
+}
+.screen-body{padding:14px 16px}
+.screen-body h4{font-size:13px;font-weight:500;margin-bottom:4px}
+.screen-body p{font-size:12px;color:var(--muted);line-height:1.6;font-weight:300}
+
+/* ── LEARNINGS ── */
+.learnings{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:40px}
+.learn-card{
+  padding:28px 24px;
+  border-top:2px solid var(--terra);
+  background:var(--glass);
+}
+.learn-n{
+  font-size:36px;font-weight:700;font-family:var(--serif);
+  color:rgba(196,97,42,.25);line-height:1;margin-bottom:12px;
+}
+.learn-card h3{font-size:14px;font-weight:500;margin-bottom:8px}
+.learn-card p{font-size:13px;color:var(--muted);line-height:1.7;font-weight:300}
+
+/* ── NEXT / CTA ── */
+.cta-section{
+  max-width:900px;margin:0 auto 80px;
+  padding:0 48px;
+  position:relative;z-index:1;
+}
+.cta-box{
+  background:var(--glass);border:1px solid var(--glass-border);
+  padding:48px;text-align:center;
+  border-top:2px solid var(--accent);
+}
+.cta-box h2{font-family:var(--serif);font-size:28px;margin-bottom:12px}
+.cta-box p{font-size:14px;color:var(--muted);margin-bottom:28px;font-weight:300}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--accent);color:#fff;
+  padding:14px 28px;font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;text-decoration:none;font-weight:500;
+  transition:background .2s,transform .2s;
+}
+.cta-btn:hover{background:var(--accent2);transform:translateY(-2px)}
+
+/* ── HIGHLIGHT QUOTE ── */
+.pull-quote{
+  border-left:3px solid var(--terra);
+  padding:20px 24px;
+  background:var(--terra-dim);
+  margin:32px 0;
+  font-family:var(--serif);
+  font-size:18px;font-style:italic;color:var(--text);line-height:1.6;
+}
+.pull-quote cite{
+  display:block;margin-top:10px;
+  font-style:normal;font-family:var(--body);
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--terra);
+}
+
+/* ── RESEARCH TABLE ── */
+.research-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+  margin-top:32px;
+}
+@media(max-width:580px){.research-grid{grid-template-columns:1fr}}
+.research-col h4{
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:16px;
+  padding-bottom:10px;border-bottom:1px solid var(--glass-border);
+}
+.research-item{
+  display:flex;gap:12px;margin-bottom:14px;
+  align-items:flex-start;
+}
+.research-item::before{
+  content:'';flex-shrink:0;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--terra);margin-top:7px;
+}
+.research-item p{font-size:13.5px;color:var(--muted);line-height:1.6;font-weight:300}
+
+/* ── FOOTER ── */
+footer{
+  text-align:center;padding:32px 48px;
+  border-top:1px solid var(--glass-border);
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted2);position:relative;z-index:1;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav{padding:18px 24px}
+  .hero,.section,.cta-section{padding-left:24px;padding-right:24px}
+  .hero{padding-top:110px;padding-bottom:48px}
+  .pain-grid{grid-template-columns:1fr}
+  .pain-card{border-right:none;border-bottom:1px solid var(--glass-border)}
+  .screens{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .screens{grid-template-columns:1fr}
+  .stat{min-width:100px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">KR</a>
+  <a href="index.html#projects" class="nav-back">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Voltar ao portfólio
+  </a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-tag">Caso de Estudo · UX/UI · Mobile</span>
+  <h1>Hotel Booking<br><em>Checkout Flow</em></h1>
+  <p class="hero-sub">
+    Redesenho de um fluxo de checkout mobile para reserva de hotéis — 6 etapas pensadas para reduzir abandono e aumentar confiança no momento mais crítico da jornada de compra.
+  </p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-n">6<span>x</span></div>
+      <div class="stat-l">Etapas do fluxo</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">70<span>%</span></div>
+      <div class="stat-l">Taxa de abandono no setor</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">3</div>
+      <div class="stat-l">Estados críticos de alerta</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">1</div>
+      <div class="stat-l">Projeto pessoal · Figma</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXTO -->
+<section class="section">
+  <span class="sec-label"><span>01</span> — Contexto & Problema</span>
+  <h2 class="sec-title">O checkout é onde o dinheiro vai embora</h2>
+  <div class="sec-body">
+    <p>
+      Reservar um quarto de hotel envolve decisões de alto envolvimento — o usuário pesquisou, comparou preços, leu avaliações. Quando finalmente clica em "reservar", qualquer atrito nesse momento vira desistência. Segundo dados do setor, <strong style="color:var(--text)">~70% dos usuários abandonam antes de concluir a compra</strong>.
+    </p>
+    <p>
+      A maioria dos fluxos existentes divide mal as etapas, exige informações redundantes e não dá feedback suficiente sobre o progresso — deixando o usuário sem saber se vai terminar em 30 segundos ou em 5 minutos.
+    </p>
+  </div>
+
+  <blockquote class="pull-quote">
+    "O usuário já decidiu comprar. Nossa função no checkout é não atrapalhar essa decisão."
+    <cite>— Premissa de design do projeto</cite>
+  </blockquote>
+
+  <div class="pain-grid">
+    <div class="pain-card">
+      <span class="pain-num">Problema 01</span>
+      <h3>Falta de clareza no progresso</h3>
+      <p>Sem indicador de etapas visível, o usuário não sabe o quanto falta — e a incerteza aumenta o abandono.</p>
+    </div>
+    <div class="pain-card">
+      <span class="pain-num">Problema 02</span>
+      <h3>Formulários longos e densos</h3>
+      <p>Agrupamento ruim de campos obriga o usuário a processar muita informação de uma vez, aumentando carga cognitiva.</p>
+    </div>
+    <div class="pain-card">
+      <span class="pain-num">Problema 03</span>
+      <h3>Confiança frágil no pagamento</h3>
+      <p>A tela de pagamento raramente transmite segurança adequada — ausência de selos, feedback de validação e resumo claro do valor.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PESQUISA -->
+<section class="section">
+  <span class="sec-label"><span>02</span> — Pesquisa & Referências</span>
+  <h2 class="sec-title">Benchmarking e padrões do setor</h2>
+  <div class="sec-body">
+    <p>
+      Sem pesquisa primária com usuários neste projeto pessoal, o processo se apoiou em benchmarking de produtos consolidados e estudos de conversão em e-commerce e travel apps.
+    </p>
+  </div>
+
+  <div class="research-grid">
+    <div class="research-col">
+      <h4>Referências analisadas</h4>
+      <div class="research-item"><p>Booking.com — indicador de etapas e agrupamento de dados de hóspede</p></div>
+      <div class="research-item"><p>Airbnb — confirmação visual e resumo do pedido sempre visível</p></div>
+      <div class="research-item"><p>Expedia — tratamento de erros inline sem perder contexto</p></div>
+      <div class="research-item"><p>Apple Pay / Google Pay — redução de friction no pagamento</p></div>
+    </div>
+    <div class="research-col">
+      <h4>Insights aplicados</h4>
+      <div class="research-item"><p>Progress bar no topo em todas as etapas reduz abandono em ~18% (Baymard Institute)</p></div>
+      <div class="research-item"><p>Formulários de 1 coluna são mais rápidos de preencher em mobile (NNGroup)</p></div>
+      <div class="research-item"><p>Revisão final antes de confirmar aumenta confiança e reduz cancelamentos pós-compra</p></div>
+      <div class="research-item"><p>Labels persistentes (não placeholder) evitam confusão em formulários longos</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESSO -->
+<section class="section">
+  <span class="sec-label"><span>03</span> — Processo de Design</span>
+  <h2 class="sec-title">6 etapas, uma decisão cada</h2>
+  <div class="sec-body">
+    <p>
+      O princípio central: <strong style="color:var(--text)">cada tela resolve uma decisão</strong>. Nenhuma etapa mistura contextos diferentes. O usuário sabe onde está, o que fez e o que falta.
+    </p>
+  </div>
+
+  <div class="stepper">
+    <div class="step">
+      <div class="step-dot">1</div>
+      <div class="step-content">
+        <div class="step-title">Seleção de quarto</div>
+        <div class="step-desc">Ponto de entrada do fluxo — confirmação visual do quarto escolhido com foto, nome e diferenciais. O usuário reconfirma a escolha antes de avançar, reduzindo dúvidas nas etapas seguintes.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">2</div>
+      <div class="step-content">
+        <div class="step-title">Datas & Hóspedes</div>
+        <div class="step-desc">Check-in, check-out e número de hóspedes — campos que impactam preço e disponibilidade. Agrupados aqui para dar ao usuário controle antes de comprometer dados pessoais.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">3</div>
+      <div class="step-content">
+        <div class="step-title">Dados do hóspede</div>
+        <div class="step-desc">Nome, e-mail e telefone — mínimo necessário para a reserva. Campos em coluna única, labels persistentes, validação inline. Sem campos desnecessários.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">4</div>
+      <div class="step-content">
+        <div class="step-title">Extras & Preferências</div>
+        <div class="step-desc">Café da manhã, late checkout, pedidos especiais. Etapa opcional claramente marcada — o usuário pode pular sem culpa. Upsell sem pressão.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">5</div>
+      <div class="step-content">
+        <div class="step-title">Pagamento</div>
+        <div class="step-desc">Cartão de crédito com validação em tempo real, ícones de segurança e resumo do valor total sempre visível. Suporte a carteira digital (Google/Apple Pay) como atalho.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">6</div>
+      <div class="step-content">
+        <div class="step-title">Revisão & Confirmação</div>
+        <div class="step-desc">Resumo completo de tudo que foi preenchido — quarto, datas, hóspede, extras, valor. O usuário revisa antes de confirmar. Tela de sucesso com número de reserva e e-mail de confirmação.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DECISÕES EM UX -->
+<section class="section">
+  <span class="sec-label"><span>04</span> — Decisões de Design</span>
+  <h2 class="sec-title">Por que cada escolha importa</h2>
+  <div class="sec-body">
+    <p>
+      Design não é estética — é argumento. Cada decisão neste fluxo tem uma justificativa baseada em comportamento do usuário.
+    </p>
+  </div>
+
+  <div class="decisions">
+    <div class="decision-card">
+      <span class="decision-badge ux">UX</span>
+      <h3>Progress bar sempre visível</h3>
+      <p>Reduz ansiedade do "quanto falta". Usuário com contexto de progresso tem maior tolerância a etapas — o fim é previsível.</p>
+    </div>
+    <div class="decision-card">
+      <span class="decision-badge ui">UI</span>
+      <h3>Paleta terracota + verde escuro</h3>
+      <p>Terracota para ações primárias — quente, convidativo, lembra hospitalidade. Verde para estados de sucesso — feedback positivo sem frieza do verde puro.</p>
+    </div>
+    <div class="decision-card">
+      <span class="decision-badge ux">UX</span>
+      <h3>Validação inline, não no submit</h3>
+      <p>Erro no momento do campo, não ao final do formulário. O usuário corrige enquanto o contexto está fresco — menos frustração, menos abandono.</p>
+    </div>
+    <div class="decision-card">
+      <span class="decision-badge ux">UX</span>
+      <h3>Resumo sticky no rodapé</h3>
+      <p>Valor total e nome do quarto sempre visíveis. O usuário não perde o norte sobre o que está comprando, especialmente com muitos extras.</p>
+    </div>
+    <div class="decision-card">
+      <span class="decision-badge ui">UI</span>
+      <h3>Campos de 1 coluna em mobile</h3>
+      <p>Evita teclado sobreposto a campos ao lado. Foco sequencial natural, sem salto visual. Preenchimento mais rápido e com menos erros.</p>
+    </div>
+    <div class="decision-card">
+      <span class="decision-badge ux">UX</span>
+      <h3>Tela de revisão antes da cobrança</h3>
+      <p>Checkpoint de confiança. O usuário revisa tudo antes de confirmar — reduz chargebacks, devoluções e frustração pós-compra.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TELAS -->
+<section class="section">
+  <span class="sec-label"><span>05</span> — Telas do Fluxo</span>
+  <h2 class="sec-title">Do Figma ao fluxo completo</h2>
+  <div class="sec-body">
+    <p>
+      Protótipo navegável criado no Figma com componentes reutilizáveis e auto-layout para garantir consistência entre as 6 telas. Cada estado de erro, loading e sucesso mapeado.
+    </p>
+  </div>
+
+  <div class="screens">
+    <div class="screen-card">
+      <div class="screen-preview">
+        <div class="screen-placeholder">
+          <span class="sp-step">01</span>
+          <span class="sp-label">Seleção do quarto</span>
+        </div>
+      </div>
+      <div class="screen-body">
+        <h4>Seleção do Quarto</h4>
+        <p>Card de confirmação com foto, nome e diferenciais do quarto escolhido.</p>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="screen-preview">
+        <div class="screen-placeholder">
+          <span class="sp-step">02</span>
+          <span class="sp-label">Datas & Hóspedes</span>
+        </div>
+      </div>
+      <div class="screen-body">
+        <h4>Datas & Hóspedes</h4>
+        <p>Date picker nativo + seletor de adultos e crianças com atualização de preço.</p>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="screen-preview">
+        <div class="screen-placeholder">
+          <span class="sp-step">03</span>
+          <span class="sp-label">Dados do hóspede</span>
+        </div>
+      </div>
+      <div class="screen-body">
+        <h4>Dados do Hóspede</h4>
+        <p>Formulário mínimo: nome, e-mail e telefone com labels flutuantes.</p>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="screen-preview">
+        <div class="screen-placeholder">
+          <span class="sp-step">04</span>
+          <span class="sp-label">Extras</span>
+        </div>
+      </div>
+      <div class="screen-body">
+        <h4>Extras & Preferências</h4>
+        <p>Seleção opcional de serviços adicionais — upsell sem pressão.</p>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="screen-preview">
+        <div class="screen-placeholder">
+          <span class="sp-step">05</span>
+          <span class="sp-label">Pagamento</span>
+        </div>
+      </div>
+      <div class="screen-body">
+        <h4>Pagamento</h4>
+        <p>Cartão com validação em tempo real, selos de segurança e valor total fixo.</p>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="screen-preview">
+        <div class="screen-placeholder">
+          <span class="sp-step">06</span>
+          <span class="sp-label">Confirmação</span>
+        </div>
+      </div>
+      <div class="screen-body">
+        <h4>Revisão & Confirmação</h4>
+        <p>Tela final com resumo completo e número da reserva gerado.</p>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top:24px;font-size:13px;color:var(--muted);text-align:center">
+    <a href="https://www.figma.com/make/ZevsJuJEx8TKhRt3noZhbh/Hotel-Booking-Checkout-Flow" target="_blank" style="color:var(--accent3);text-decoration:none">
+      Ver protótipo completo no Figma →
+    </a>
+  </p>
+</section>
+
+<!-- APRENDIZADOS -->
+<section class="section">
+  <span class="sec-label"><span>06</span> — Aprendizados</span>
+  <h2 class="sec-title">O que este projeto ensinou</h2>
+  <div class="sec-body">
+    <p>Projetar um checkout de ponta a ponta em mobile revelou tensões que só aparecem quando você tenta conectar cada etapa em um fluxo coeso.</p>
+  </div>
+
+  <div class="learnings">
+    <div class="learn-card">
+      <div class="learn-n">01</div>
+      <h3>Progressão é UX, não detalhe</h3>
+      <p>Sem a progress bar, o fluxo de 6 etapas parecia interminável. A percepção de progresso muda o comportamento — o usuário aguenta mais etapas quando sabe onde está.</p>
+    </div>
+    <div class="learn-card">
+      <div class="learn-n">02</div>
+      <h3>Mobile exige hierarquia extrema</h3>
+      <p>A tela pequena força escolhas. O que fica visible sem scroll é o que determina se o usuário avança. Cada pixel conta.</p>
+    </div>
+    <div class="learn-card">
+      <div class="learn-n">03</div>
+      <h3>Confiança é construída, não assumida</h3>
+      <p>O usuário já decide comprar antes do checkout — o designer tem que honrar essa decisão. Fricção desnecessária quebra a confiança que a pesquisa e as avaliações construíram.</p>
+    </div>
+    <div class="learn-card">
+      <div class="learn-n">04</div>
+      <h3>Componentes reutilizáveis pagam juros</h3>
+      <p>Criar o progress indicator, os campos e os estados de erro como componentes no Figma tornou as 6 telas muito mais rápidas de ajustar — consistência de graça.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-box">
+    <h2>Gostou do processo?</h2>
+    <p>Tenho outros projetos de web design e UX/UI — ou podemos conversar sobre o seu.</p>
+    <a href="index.html#contact" class="cta-btn">
+      Ver mais projetos
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <a href="index.html" style="color:inherit;text-decoration:none">Kaique Rocha</a>
+  &nbsp;·&nbsp; Web Design & UX/UI &nbsp;·&nbsp; Brasil
+</footer>
+
+</body>
+</html>
